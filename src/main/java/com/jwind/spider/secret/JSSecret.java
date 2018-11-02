@@ -5,6 +5,9 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,9 +30,8 @@ public class JSSecret {
      */
     static {
         try {
-            String pathStr = JSSecret.class.getClassLoader().getResource("core.js").getPath();
-            Path path = Paths.get(pathStr);
-            byte[] bytes = Files.readAllBytes(path);
+            InputStream is = JSSecret.class.getResourceAsStream("/core.js");
+            byte[] bytes = toByteArray(is);
             String js = new String(bytes);
             ScriptEngineManager factory = new ScriptEngineManager();
             ScriptEngine engine = factory.getEngineByName("JavaScript");
@@ -56,6 +58,16 @@ public class JSSecret {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static byte[] toByteArray(InputStream input) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+        }
+        return output.toByteArray();
     }
 
 }

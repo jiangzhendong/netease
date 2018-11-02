@@ -49,13 +49,14 @@ public class Api {
 
     /**
      * 获取歌曲URL：
+     *
      * @param ids
      * @return
      */
     public static UrlParamPair getMusicURL(String ids) {
         UrlParamPair upp = new UrlParamPair();
         upp.setUrl(BaseURL + "weapi/song/enhance/player/url?csrf_token=");
-        upp.addPara("ids", "["+ids+"]");
+        upp.addPara("ids", "[" + ids + "]");
         upp.addPara("br", 320000);
         upp.addPara("csrf_token", "''");
         return upp;

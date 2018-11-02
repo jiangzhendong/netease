@@ -9,8 +9,8 @@ import com.jwind.spider.utils.FileReadAndWrite;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-public class App 
-{
+
+public class App {
     public static void main(String[] args) {
         try {
             String selete = FileReadAndWrite.readDataFromConsole("请选择1.歌单下载；2.指定歌曲下载：");
@@ -19,6 +19,10 @@ public class App
                 String playId = FileReadAndWrite.readDataFromConsole("请输入歌单ID：");
                 String rest = HttpPost.getPlayList(playId);
                 JSONObject jsonObject = JSONObject.parseObject(rest);
+                if (jsonObject.getInteger("code") == 404) {
+                    System.err.println(jsonObject.getString("msg"));
+                    System.exit(404);
+                }
                 JSONObject playLists = jsonObject.getJSONObject("playlist");
                 JSONArray tracks = playLists.getJSONArray("tracks");
                 List<SongInfo> songInfos = new ArrayList<SongInfo>();
@@ -55,6 +59,10 @@ public class App
                 }
                 String uslRest = HttpPost.getUrls(id);
                 JSONObject uslRestJson = JSONObject.parseObject(uslRest);
+                if (uslRestJson.getInteger("code") == 404) {
+                    System.err.println(uslRestJson.getString("msg"));
+                    System.exit(404);
+                }
                 String url = uslRestJson.getJSONArray("data").getJSONObject(0).getString("url");
                 String type = uslRestJson.getJSONArray("data").getJSONObject(0).getString("type");
                 HttpPost.downLoadFromUrl(url, name, "./Music", type);

@@ -13,6 +13,7 @@ public class FileReadAndWrite {
 
     /**
      * 写入文件
+     *
      * @param fileName
      * @param content
      */
@@ -21,7 +22,7 @@ public class FileReadAndWrite {
         try {
             out = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(fileName, true)));
-            out.write(content+"\r\n");
+            out.write(content + "\r\n");
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,6 +31,7 @@ public class FileReadAndWrite {
 
     /**
      * 获取文件的路径
+     *
      * @return
      */
     public static String pwd() {
@@ -48,15 +50,17 @@ public class FileReadAndWrite {
         }
         return "/home/api";
     }
+
     /**
      * 执行命令下载音乐
+     *
      * @return
      */
     public static String python() {
         try {
             String path = pwd();
-            String filePath = path+"/bin/music_list.txt";
-            Process ps = Runtime.getRuntime().exec("python3 "+path+"/bin/Netease.py " + filePath);
+            String filePath = path + "/bin/music_list.txt";
+            Process ps = Runtime.getRuntime().exec("python3 " + path + "/bin/Netease.py " + filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line;
