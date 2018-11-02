@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class App {
+    private static String path = FileReadAndWrite.getDownloadFilePath() + "Music";
+
     public static void main(String[] args) {
         try {
             String selete = FileReadAndWrite.readDataFromConsole("请选择1.歌单下载；2.指定歌曲下载：");
@@ -46,8 +48,9 @@ public class App {
                     songInfos.add(songInfo);
 
                 }
-                String savePath = "Music" + File.separator + playId;
+                String savePath = path + File.separator + playId;
                 //第2步：下载文件
+                System.out.println("下载目录为：" + path);
                 for (SongInfo s : songInfos) {
                     HttpPost.downLoadFromUrl(s.getUrl(), s.getName(), savePath, s.getType());
                 }
@@ -65,10 +68,11 @@ public class App {
                 }
                 String url = uslRestJson.getJSONArray("data").getJSONObject(0).getString("url");
                 String type = uslRestJson.getJSONArray("data").getJSONObject(0).getString("type");
-                HttpPost.downLoadFromUrl(url, name, "./Music", type);
+                HttpPost.downLoadFromUrl(url, name, path, type);
             }
 
         } catch (Exception e) {
+            System.out.println("出错了！");
             e.printStackTrace();
         }
     }

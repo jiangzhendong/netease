@@ -94,4 +94,16 @@ public class FileReadAndWrite {
     }
 
 
+    public static String getDownloadFilePath(){
+        String path = FileReadAndWrite.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
+        int lastIndex = path.lastIndexOf(File.separator) + 1;
+        path = path.substring(firstIndex, lastIndex);
+        return path;
+    }
+
+    public static void main(String[] args) {
+        getDownloadFilePath();
+    }
+
 }
